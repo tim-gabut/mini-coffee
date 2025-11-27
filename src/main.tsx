@@ -1,10 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
+import {StrictMode} from 'react'
+import {createRoot} from 'react-dom/client'
+import Navbar from './app/Navbar.tsx'
+import Search from './app/Search.tsx'
 import './index.css'
+import SearchByCategory from "./app/SearchByCategory.tsx";
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+    <StrictMode>
+        <Navbar/>
+        <Search/>
+        <SearchByCategory/>
+    </StrictMode>,
 )
