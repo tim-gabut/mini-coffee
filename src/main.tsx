@@ -5,6 +5,8 @@ import Search from './app/Search.tsx'
 import './index.css'
 import SearchByCategory from "./app/SearchByCategory.tsx";
 import Menu from "./app/Menu.tsx";
+import BottomNav, { type TabView } from "./app/BottomNav.tsx";
+
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
@@ -12,5 +14,10 @@ createRoot(document.getElementById('root')!).render(
         <Search/>
         <SearchByCategory/>
         <Menu/>
-    </StrictMode>,
+        <BottomNav activeTab={"menu"} onTabChange={function(tab: TabView): void {
+            throw new Error("Function not implemented.")
+        } }/>
+    </StrictMode>
 )
+
+
