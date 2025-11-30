@@ -1,4 +1,4 @@
-import Search from "./app/Search.tsx";
+import SearchBar from "./app/SearchBar.tsx";
 import SearchByCategory from "./app/SearchByCategory.tsx";
 import Menu from "./app/Menu.tsx";
 import BottomNav from "./app/BottomNav.tsx";
@@ -6,7 +6,7 @@ import BottomNav from "./app/BottomNav.tsx";
 export default function App(){
     return (
         <>
-            <Search/>
+            <SearchBar/>
             <SearchByCategory/>
             <Menu/>
             <BottomNav />
