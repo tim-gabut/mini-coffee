@@ -3,17 +3,22 @@ import {Link} from "react-router-dom"
 import {useState} from "react";
 
 interface MenuItem {
+    id:number;
     name: string;
     icon: React.ReactNode;
     path: string;
 }
 
+interface PropsItem{
+    totalItems : number;
+}
+
 const menuBottomNav: MenuItem[] = [
-    {name: "Home", icon: <Home/>, path: "/"},
-    {name: "Cart", icon: <ShoppingCart/>, path: "/cart"},
-    {name: "User", icon: <User/>, path: "/user"}
+    {id:1,name: "Home", icon: <Home/>, path: "/"},
+    {id:2, name: "Cart", icon: <ShoppingCart/>, path: "/cart"},
+    {id:3, name: "User", icon: <User/>, path: "/user"}
 ]
-export default function BottomNav() {
+export default function BottomNav({totalItems}: PropsItem) {
 
     const [isActive, setIsActive] = useState("Home");
 
@@ -24,16 +29,21 @@ export default function BottomNav() {
         shadow-black rounded-t-lg">
             <div className="flex justify-around items-center h-16">
                 {
-                    menuBottomNav.map((item: MenuItem, index: number) => (
+                    menuBottomNav.map((item: MenuItem) => (
                         <Link
-                            key={index}
+                            key={item.id}
                             to={item.path}
                             onClick={() => setIsActive(item.name)}
                             className={`flex flex-col text-xs gap-1
                     ${item.name === isActive ? "text-amber-500" : "text-grey-400"} 
-                    items-center transition-colors duration-100`}
+                    items-center transition-colors duration-100 relative`}
                         >
                             {item.icon}
+                            {(item.name === "Cart" && totalItems > 0) && (
+                                <span className="absolute -top-2 -right-2 text-white bg-red-500 text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                                    {totalItems}
+                                </span>
+                            ) }
                             {item.name}
                         </Link>
                     ))
