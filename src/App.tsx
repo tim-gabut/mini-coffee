@@ -2,8 +2,9 @@ import SearchBar from "./app/SearchBar.tsx";
 import Menu, {type MenuItem} from "./app/Menu.tsx";
 import BottomNav from "./app/BottomNav.tsx";
 import {useEffect, useState} from "react";
+import FloatingCart from "./app/FloatingCart.tsx";
 
-interface CartItem {
+export interface CartItem {
     id: number;
     menuName: string;
     price: number;
@@ -20,7 +21,7 @@ export default function App() {
             setCart(prev =>
                 prev.map(item =>
                     item.id === itemMenu.id
-                        ? { ...item, qty: item.qty + 1 }
+                        ? {...item, qty: item.qty + 1}
                         : item
                 )
             );
@@ -35,7 +36,28 @@ export default function App() {
 
         }
     }
+
+    const handleRemoveFromCart = (itemMenu: MenuItem) => {
+        const isFoundItem = cart.find(item => item.id === itemMenu.id);
+        if (isFoundItem) {
+            setCart(prev =>
+                prev.map(item =>
+                    item.id === itemMenu.id
+                        ? {...item, qty: item.qty - 1}
+                        : item
+                )
+            );
+        } else {
+            const updateCart = cart.filter(item => item.id !== itemMenu.id);
+            setCart(updateCart);
+
+        }
+    }
     const totalQtyGlobal = cart.reduce((total, item) => total + item.qty, 0);
+    const totalPriceGlobal = cart.reduce((total, item) => {
+        const sub = item.price * item.qty;
+        return sub + total;
+    }, 0);
     useEffect(() => {
         console.log("Cart Updated:", cart);
         console.log("Total Qty:", totalQtyGlobal);
@@ -43,8 +65,19 @@ export default function App() {
     return (
         <>
             <SearchBar/>
-            <Menu funcAddItem={handleAddToCart}/>
-            <BottomNav totalItems={totalQtyGlobal}/>
+            <Menu funcAddItem={handleAddToCart}
+                  cart={cart}
+                  removeFromCart={handleRemoveFromCart}
+            />
+            {
+                totalQtyGlobal > 0 && (
+                    <FloatingCart totalItems={totalQtyGlobal}
+
+                                  totalPriceGlobal={totalPriceGlobal}/>
+                )
+            }
+
+            <BottomNav/>
         </>
     )
 }
