@@ -1,8 +1,9 @@
 import SearchBar from "./app/SearchBar.tsx";
-import Menu, {type MenuItem} from "./app/Menu.tsx";
+import Menu from "./app/Menu.tsx";
 import BottomNav from "./app/BottomNav.tsx";
 import {useEffect, useState} from "react";
 import FloatingCart from "./app/FloatingCart.tsx";
+import {menus, type MenuItem} from "./data/data.ts";
 
 export interface CartItem {
     id: number;
@@ -13,6 +14,7 @@ export interface CartItem {
 
 export default function App() {
     const [cart, setCart] = useState<CartItem[]>([])
+    const [keyword, setKeyword] = useState("");
 
     const handleAddToCart = (itemMenu: MenuItem) => {
         const isFoundItem = cart.find(item => item.id === itemMenu.id);
@@ -62,12 +64,17 @@ export default function App() {
         console.log("Cart Updated:", cart);
         console.log("Total Qty:", totalQtyGlobal);
     }, [cart, totalQtyGlobal]);
+
+    const filteredMenus = menus.filter((item) => {
+        return item.menuName.toLowerCase().includes(keyword.toLowerCase());
+    });
     return (
         <>
-            <SearchBar/>
+            <SearchBar onSearch={(text=>setKeyword(text))}/>
             <Menu funcAddItem={handleAddToCart}
                   cart={cart}
                   removeFromCart={handleRemoveFromCart}
+                  dataMenu={filteredMenus}
             />
             {
                 totalQtyGlobal > 0 && (
@@ -77,7 +84,7 @@ export default function App() {
                 )
             }
 
-            <BottomNav/>
+            <BottomNav totalItems={totalQtyGlobal}/>
         </>
     )
 }
