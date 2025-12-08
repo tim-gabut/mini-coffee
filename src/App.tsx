@@ -15,7 +15,11 @@ export interface CartItem {
 export default function App() {
     const [cart, setCart] = useState<CartItem[]>([])
     const [keyword, setKeyword] = useState("");
+    const [isCartOpen, setIsCartOpen] = useState(false);
 
+    const togleCart = () => {
+        setIsCartOpen(!isCartOpen)
+    }
     const handleAddToCart = (itemMenu: MenuItem) => {
         const isFoundItem = cart.find(item => item.id === itemMenu.id);
         if (isFoundItem) {
