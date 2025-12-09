@@ -2,6 +2,7 @@ import '../index.css';
 import {Minus, Plus, ShoppingCart} from "lucide-react";
 import type {CartItem} from "../App.tsx";
 import {type MenuItem} from "../data/data.ts";
+import {formatRupiah} from "../util/currency.ts";
 
 
 interface MenuProps {
@@ -29,7 +30,7 @@ export default function Menu({funcAddItem, cart,removeFromCart, dataMenu}: MenuP
                                     <h3 className="font-bold text-lg w-full pl-2">{menu.menuName}</h3>
                                     <p className="text-sm pl-2">{menu.description}</p>
                                     <div className="flex justify-around justify-items-center mx-2 mb-2">
-                                        <p className="flex flex-auto items-center">{menu.price}</p>
+                                        <p className="flex flex-auto items-center">{formatRupiah(menu.price)}</p>
                                         {
                                             (quantity === 0) ? (
                                                 <button

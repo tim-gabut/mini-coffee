@@ -10,6 +10,7 @@ export interface CartItem {
     menuName: string;
     price: number;
     qty: number;
+    imageUrl: string;
 }
 
 export default function App() {
@@ -17,7 +18,8 @@ export default function App() {
     const [keyword, setKeyword] = useState("");
     const [isCartOpen, setIsCartOpen] = useState(false);
 
-    const togleCart = () => {
+    const toggleCart = () => {
+        console.log("TOMBOL DITEKAN! Status sekarang:", isCartOpen);
         setIsCartOpen(!isCartOpen)
     }
     const handleAddToCart = (itemMenu: MenuItem) => {
@@ -36,6 +38,7 @@ export default function App() {
                 id: itemMenu.id,
                 menuName: itemMenu.menuName,
                 price: itemMenu.price,
+                imageUrl: itemMenu.image,
                 qty: 1
             };
             setCart([...cart, newItem]);
@@ -74,7 +77,7 @@ export default function App() {
     });
     return (
         <>
-            <SearchBar onSearch={(text=>setKeyword(text))}/>
+            <SearchBar onSearch={(text => setKeyword(text))}/>
             <Menu funcAddItem={handleAddToCart}
                   cart={cart}
                   removeFromCart={handleRemoveFromCart}
@@ -82,13 +85,17 @@ export default function App() {
             />
             {
                 totalQtyGlobal > 0 && (
-                    <FloatingCart totalItems={totalQtyGlobal}
-
-                                  totalPriceGlobal={totalPriceGlobal}/>
+                    <FloatingCart
+                        totalItems={totalQtyGlobal}
+                        totalPriceGlobal={totalPriceGlobal}
+                        cart={cart}
+                        isOpen={isCartOpen}
+                        toggleCart={toggleCart}
+                    />
                 )
             }
 
-            <BottomNav totalItems={totalQtyGlobal}/>
+            <BottomNav/>
         </>
     )
 }
